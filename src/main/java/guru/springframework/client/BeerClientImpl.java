@@ -1,5 +1,6 @@
 package guru.springframework.client;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -28,5 +29,11 @@ public class BeerClientImpl implements BeerClient {
         return webClient.get().uri(BEER_PATH, Map.class)
                 .retrieve().bodyToFlux(new ParameterizedTypeReference<>() {
                 });
+    }
+
+    @Override
+    public Flux<JsonNode> listBeersJsonNode() {
+        return webClient.get().uri(BEER_PATH, JsonNode.class)
+                .retrieve().bodyToFlux(JsonNode.class);
     }
 }
