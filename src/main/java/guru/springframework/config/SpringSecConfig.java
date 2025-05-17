@@ -8,21 +8,29 @@ import org.springframework.security.oauth2.client.registration.ReactiveClientReg
 @Configuration
 public class SpringSecConfig {
     @Bean
-    public ReactiveOAuth2AuthorizedClientManager auth2AuthorizedClientManager (
+    public ReactiveOAuth2AuthorizedClientManager authorizedClientManager (
             ReactiveClientRegistrationRepository clientRegistrationRepository,
-            ReactiveOAuth2AuthorizedClientService reactiveOAuth2AuthorizedClientService
-    ) {
-        ReactiveOAuth2AuthorizedClientProvider auth2AuthorizedClientProvider =
+            ReactiveOAuth2AuthorizedClientService authorizedClientService
+    ){
+        ReactiveOAuth2AuthorizedClientProvider authorizedClientProvider =
                 ReactiveOAuth2AuthorizedClientProviderBuilder.builder()
                         .clientCredentials()
                         .build();
+
         AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager authorizedClientManager
                 = new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(
-                        clientRegistrationRepository, reactiveOAuth2AuthorizedClientService
+                clientRegistrationRepository, authorizedClientService
         );
 
-        authorizedClientManager.setAuthorizedClientProvider(auth2AuthorizedClientProvider);
+        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
 
         return authorizedClientManager;
     }
 }
+
+
+
+
+
+
+
